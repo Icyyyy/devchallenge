@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="EclipseCodeFormatterProjectSettings">
+    <option name="selectedGlobalProfile">
+      <Settings>
+        <option name="formatOtherFileTypesWithIntelliJ" value="false" />
+        <option name="formatter" value="ECLIPSE" />
+        <option name="id" value="1599035502445" />
+        <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/../../../toolsAndConfigFiles/Eclipse.importorder" />
+        <option name="importOrderFromFile" value="true" />
+        <option name="name" value="ApiOmat" />
+        <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../../../toolsAndConfigFiles/aomformatter.xml" />
+        <option name="selectedJavaProfile" value="ApiOmat" />
+      </Settings>
+    </option>
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
