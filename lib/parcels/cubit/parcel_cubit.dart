@@ -79,7 +79,7 @@ class ParcelCubit extends Cubit<ParcelState> {
   }
 
   void createParcelLabel() {
-    // TODO
+    // TODO send data to backend
   }
 
   void changeFirstname(String value, {required ContactEnum contact}) {
@@ -88,24 +88,24 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(firstname: firstname),
             isValidRecipient: Formz.validate([
-              firstname,
+              //    firstname,
               state.recipient.lastname,
               state.recipient.street,
               state.recipient.houseNumber,
               state.recipient.postCode,
-              state.recipient.email,
+              //state.recipient.email,
               state.recipient.residence,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(firstname: firstname),
             isValidSender: Formz.validate([
-              firstname,
+              //  firstname,
               state.sender.lastname,
               state.sender.street,
               state.sender.houseNumber,
               state.sender.postCode,
-              state.sender.email,
+              // state.sender.email,
               state.sender.residence,
             ]),
           ));
@@ -117,24 +117,24 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(lastname: lastname),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              //   state.recipient.firstname,
               lastname,
               state.recipient.street,
               state.recipient.houseNumber,
               state.recipient.postCode,
-              state.recipient.email,
+              //  state.recipient.email,
               state.recipient.residence,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(lastname: lastname),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              //  state.sender.firstname,
               lastname,
               state.sender.street,
               state.sender.houseNumber,
               state.sender.postCode,
-              state.sender.email,
+              //  state.sender.email,
               state.sender.residence,
             ]),
           ));
@@ -146,24 +146,24 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(street: street),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              //   state.recipient.firstname,
               state.recipient.lastname,
               street,
               state.recipient.houseNumber,
               state.recipient.postCode,
-              state.recipient.email,
+              // state.recipient.email,
               state.recipient.residence,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(street: street),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              //  state.sender.firstname,
               state.sender.lastname,
               street,
               state.sender.houseNumber,
               state.sender.postCode,
-              state.sender.email,
+              // state.sender.email,
               state.sender.residence,
             ]),
           ));
@@ -175,24 +175,24 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(houseNumber: houseNumber),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              // state.recipient.firstname,
               state.recipient.lastname,
               state.recipient.street,
               houseNumber,
               state.recipient.postCode,
-              state.recipient.email,
+              //   state.recipient.email,
               state.recipient.residence,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(houseNumber: houseNumber),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              // state.sender.firstname,
               state.sender.lastname,
               state.sender.street,
               houseNumber,
               state.sender.postCode,
-              state.sender.email,
+              // state.sender.email,
               state.sender.residence,
             ]),
           ));
@@ -205,24 +205,24 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(postCode: postCode),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              //  state.recipient.firstname,
               state.recipient.lastname,
               state.recipient.street,
               state.recipient.houseNumber,
               postCode,
-              state.recipient.email,
+              //  state.recipient.email,
               state.recipient.residence,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(postCode: postCode),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              //  state.sender.firstname,
               state.sender.lastname,
               state.sender.street,
               state.sender.houseNumber,
               postCode,
-              state.sender.email,
+              //  state.sender.email,
               state.sender.residence,
             ]),
           ));
@@ -234,25 +234,25 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(residence: residence),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              // state.recipient.firstname,
               state.recipient.lastname,
               state.recipient.street,
               state.recipient.houseNumber,
               state.recipient.postCode,
               residence,
-              state.recipient.email,
+              //  state.recipient.email,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(residence: residence),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              //  state.sender.firstname,
               state.sender.lastname,
               state.sender.street,
               state.sender.houseNumber,
               state.sender.postCode,
               residence,
-              state.sender.email,
+              //  state.sender.email,
             ]),
           ));
   }
@@ -263,25 +263,25 @@ class ParcelCubit extends Cubit<ParcelState> {
         ? state.copyWith(
             recipient: state.recipient.copyWith(email: email),
             isValidRecipient: Formz.validate([
-              state.recipient.firstname,
+              // state.recipient.firstname,
               state.recipient.lastname,
               state.recipient.street,
               state.recipient.houseNumber,
               state.recipient.postCode,
               state.recipient.residence,
-              email,
+              //   email,
             ]),
           )
         : state.copyWith(
             sender: state.sender.copyWith(email: email),
             isValidSender: Formz.validate([
-              state.sender.firstname,
+              //  state.sender.firstname,
               state.sender.lastname,
               state.sender.street,
               state.sender.houseNumber,
               state.sender.postCode,
               state.sender.residence,
-              email,
+              //     email,
             ]),
           ));
   }

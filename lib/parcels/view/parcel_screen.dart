@@ -148,7 +148,7 @@ class ContactForm extends StatelessWidget {
           onChanged: (value) => context
               .read<ParcelCubit>()
               .changeFirstname(value, contact: contact),
-          labelText: 'Vorname',
+          labelText: 'Vorname (Optional)',
           errorText: ctc.firstname.displayError != null
               ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
               : null,
@@ -210,7 +210,7 @@ class ContactForm extends StatelessWidget {
         FormTextField(
           onChanged: (value) =>
               context.read<ParcelCubit>().changeEmail(value, contact: contact),
-          labelText: 'E-Mail',
+          labelText: 'E-Mail (Optional)',
           errorText: ctc.email.displayError != null ? 'Ungültige E-Mail' : null,
         ),
       ],

@@ -20,10 +20,11 @@ class ContactSummary extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${contact.firstname.value} ${contact.lastname.value}"),
+                Text(
+                    "${contact.firstname.value.isNotEmpty ? '${contact.firstname.value} ' : ''}${contact.lastname.value}"),
                 Text("${contact.postCode.value} ${contact.residence.value}"),
                 Text("${contact.street.value} ${contact.houseNumber.value}"),
-                Text(contact.email.value),
+                if (contact.email.value.isNotEmpty) Text(contact.email.value),
               ],
             )),
       ]),
