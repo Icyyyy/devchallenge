@@ -5,13 +5,13 @@ class ParcelCard extends StatelessWidget {
   const ParcelCard(
       {super.key,
       required this.parcel,
-      required this.onTap,
+      this.onTap,
       this.isSelected = false,
       this.onTapInfoIcon});
 
   final Parcel parcel;
   final bool isSelected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final VoidCallback? onTapInfoIcon;
 
   @override

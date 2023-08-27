@@ -7,7 +7,9 @@ class ParcelState with _$ParcelState {
     Parcel? selectedParcel,
     @Default(0) int stepIndex,
     FormzSubmissionStatus? recipientStatus,
-    @Default(Recipient()) Recipient recipient,
-    @Default(Sender()) Sender sender,
+    @Default(Contact()) Contact recipient,
+    @Default(false) bool isValidRecipient,
+    @Default(Contact()) Contact sender,
+    @Default(false) bool isValidSender,
   }) = _Parcel;
 }
