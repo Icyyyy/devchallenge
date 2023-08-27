@@ -6,7 +6,7 @@ class Firstname extends FormzInput<String, FirstnameValidationError> {
   const Firstname.pure() : super.pure('');
   const Firstname.dirty([super.value = '']) : super.dirty();
 
-  static final RegExp _firstnameRegExp = RegExp(r"^[a-zA-Z]+$");
+  static final RegExp _firstnameRegExp = RegExp(r"^[a-zA-Z\s]+$");
 
   @override
   FirstnameValidationError? validator(String? value) {

@@ -6,7 +6,7 @@ class HouseNumber extends FormzInput<String, HouseNumberValidationError> {
   const HouseNumber.pure() : super.pure('');
   const HouseNumber.dirty([super.value = '']) : super.dirty();
 
-  static final RegExp _houseNumberRegExp = RegExp(r"^[0-9a-z]+$");
+  static final RegExp _houseNumberRegExp = RegExp(r"^[0-9a-z\s]+$");
   @override
   HouseNumberValidationError? validator(String? value) {
     return _houseNumberRegExp.hasMatch(value ?? '')
