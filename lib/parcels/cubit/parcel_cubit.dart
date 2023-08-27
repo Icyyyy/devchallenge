@@ -7,6 +7,7 @@ import 'package:devchallenge/parcels/forms/residence.dart';
 import 'package:devchallenge/parcels/forms/street.dart';
 import 'package:devchallenge/parcels/models/contact.dart';
 import 'package:devchallenge/parcels/models/parcel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -33,30 +34,30 @@ class ParcelCubit extends Cubit<ParcelState> {
           Parcel(
             title: 'S-Paket',
             price: '4,95€',
-            bulletPoints: [
+            bulletPoints: const [
               'längste und kürzeste Seite zusammen max. 50 cm',
               'maximal 25 kg'
             ],
           ),
           Parcel(
-            title: 'L-Paket',
+            title: 'M-Paket',
             price: '6,75€',
-            bulletPoints: [
+            bulletPoints: const [
               'längste und kürzeste Seite zusammen max. 80 cm',
               'maximal 25 kg'
             ],
           ),
           Parcel(
-            title: 'M-Paket',
+            title: 'L-Paket',
             price: '10,95€',
-            bulletPoints: [
+            bulletPoints: const [
               'längste und kürzeste Seite zusammen max. 120 cm',
               'maximal 25 kg'
             ],
           )
         ]));
 
-  void selected(Parcel parcel) {
+  void selectParcel(Parcel parcel) {
     emit(state.copyWith(
         selectedParcel: state.selectedParcel == parcel ? null : parcel));
   }
@@ -77,7 +78,11 @@ class ParcelCubit extends Cubit<ParcelState> {
     }
   }
 
-  void firstnameChanged(String value, {required ContactEnum contact}) {
+  void createParcelLabel() {
+    // TODO
+  }
+
+  void changeFirstname(String value, {required ContactEnum contact}) {
     final firstname = Firstname.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -106,7 +111,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void lastnameChanged(String value, {required ContactEnum contact}) {
+  void changeLastname(String value, {required ContactEnum contact}) {
     final lastname = Lastname.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -135,7 +140,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void streetChanged(String value, {required ContactEnum contact}) {
+  void changeStreet(String value, {required ContactEnum contact}) {
     final street = Street.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -164,7 +169,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void houseNumberChanged(String value, {required ContactEnum contact}) {
+  void changehouseNumber(String value, {required ContactEnum contact}) {
     final houseNumber = HouseNumber.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -193,7 +198,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void postCodeChanged(String value, {required ContactEnum contact}) {
+  void changePostCode(String value, {required ContactEnum contact}) {
     final postCode = PostCode.dirty(value);
 
     emit(contact == ContactEnum.recipient
@@ -223,7 +228,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void residenceChanged(String value, {required ContactEnum contact}) {
+  void changeResidence(String value, {required ContactEnum contact}) {
     final residence = Residence.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -252,7 +257,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void emailChanged(String value, {required ContactEnum contact}) {
+  void changeEmail(String value, {required ContactEnum contact}) {
     final email = Email.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(
@@ -279,5 +284,21 @@ class ParcelCubit extends Cubit<ParcelState> {
               email,
             ]),
           ));
+  }
+
+  @override
+  void onChange(Change<ParcelState> change) {
+    super.onChange(change);
+    if (kDebugMode) {
+      print(change);
+    }
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    if (kDebugMode) {
+      print('$error, $stackTrace');
+    }
+    super.onError(error, stackTrace);
   }
 }

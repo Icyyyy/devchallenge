@@ -1,5 +1,7 @@
 import 'package:devchallenge/parcels/cubit/parcel_cubit.dart';
+import 'package:devchallenge/parcels/models/contact.dart';
 import 'package:devchallenge/parcels/models/parcel.dart';
+import 'package:devchallenge/parcels/widgets/contact_summary.dart';
 import 'package:devchallenge/parcels/widgets/form_text_field.dart';
 import 'package:devchallenge/parcels/widgets/parcel_card.dart';
 import 'package:flutter/material.dart';
@@ -41,17 +43,26 @@ class ParcelView extends StatelessWidget {
             return Align(
               alignment: Alignment.bottomRight,
               child: Row(children: <Widget>[
-                if (details.currentStep == 0)
+                if (details.currentStep == 0) ...[
                   _buildNextButton(
                       isStepValid: parcelState.selectedParcel != null,
                       details: details),
-                if (details.currentStep == 1)
+                ] else if (details.currentStep == 1) ...[
                   _buildNextButton(
                       isStepValid: parcelState.isValidRecipient,
                       details: details),
-                if (details.currentStep == 2)
+                ] else if (details.currentStep == 2) ...[
                   _buildNextButton(
                       isStepValid: parcelState.isValidSender, details: details),
+                ] else if (details.currentStep == 3) ...[
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: TextButton(
+                        onPressed: () =>
+                            context.read<ParcelCubit>().createParcelLabel(),
+                        child: const Text('Paketschein erstellen'),
+                      ))
+                ]
               ]),
             );
           },
@@ -108,7 +119,8 @@ class ParcelSelection extends StatelessWidget {
                 return ParcelCard(
                   parcel: package,
                   isSelected: state.selectedParcel == package,
-                  onTap: () => context.read<ParcelCubit>().selected(package),
+                  onTap: () =>
+                      context.read<ParcelCubit>().selectParcel(package),
                 );
               },
             );
@@ -126,150 +138,80 @@ class ContactForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var state = context.watch<ParcelCubit>().state;
+    Contact ctc =
+        contact == ContactEnum.recipient ? state.recipient : state.sender;
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 16),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.firstname != current.recipient.firstname ||
-              previous.sender.firstname != current.sender.firstname,
-          builder: (context, state) {
-            var firstname = contact == ContactEnum.recipient
-                ? state.recipient.firstname
-                : state.sender.firstname;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .firstnameChanged(value, contact: contact),
-              labelText: 'Vorname',
-              errorText: firstname.displayError != null
-                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-                  : null,
-            );
-          },
+        FormTextField(
+          onChanged: (value) => context
+              .read<ParcelCubit>()
+              .changeFirstname(value, contact: contact),
+          labelText: 'Vorname',
+          errorText: ctc.firstname.displayError != null
+              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+              : null,
         ),
         const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.lastname != current.recipient.lastname ||
-              previous.sender.lastname != current.sender.lastname,
-          builder: (context, state) {
-            var lastname = contact == ContactEnum.recipient
-                ? state.recipient.lastname
-                : state.sender.lastname;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .lastnameChanged(value, contact: contact),
-              labelText: 'Nachname',
-              errorText: lastname.displayError != null
-                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-                  : null,
-            );
-          },
+        FormTextField(
+          onChanged: (value) => context
+              .read<ParcelCubit>()
+              .changeLastname(value, contact: contact),
+          labelText: 'Nachname',
+          errorText: ctc.lastname.displayError != null
+              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+              : null,
         ),
         const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.street != current.recipient.street ||
-              previous.sender.street != current.sender.street,
-          builder: (context, state) {
-            var street = contact == ContactEnum.recipient
-                ? state.recipient.street
-                : state.sender.street;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .streetChanged(value, contact: contact),
-              labelText: 'Straße',
-              errorText: street.displayError != null
-                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-                  : null,
-            );
-          },
+        FormTextField(
+          onChanged: (value) =>
+              context.read<ParcelCubit>().changeStreet(value, contact: contact),
+          labelText: 'Straße',
+          errorText: ctc.street.displayError != null
+              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+              : null,
         ),
         const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.houseNumber != current.recipient.houseNumber ||
-              previous.sender.houseNumber != current.sender.houseNumber,
-          builder: (context, state) {
-            var houseNumber = contact == ContactEnum.recipient
-                ? state.recipient.houseNumber
-                : state.sender.houseNumber;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .houseNumberChanged(value, contact: contact),
-              labelText: 'Hausnummer',
-              errorText: houseNumber.displayError != null
-                  ? 'Nur Zeichen 0-9 und a-z sind erlaubt'
-                  : null,
-            );
-          },
+        FormTextField(
+          onChanged: (value) => context
+              .read<ParcelCubit>()
+              .changehouseNumber(value, contact: contact),
+          labelText: 'Hausnummer',
+          errorText: ctc.houseNumber.displayError != null
+              ? 'Nur Zeichen 0-9 und a-z sind erlaubt'
+              : null,
         ),
         const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.postCode != current.recipient.postCode ||
-              previous.sender.postCode != current.sender.postCode,
-          builder: (context, state) {
-            var postCode = contact == ContactEnum.recipient
-                ? state.recipient.postCode
-                : state.sender.postCode;
-            return FormTextField(
-                onChanged: (postCode) => context
-                    .read<ParcelCubit>()
-                    .postCodeChanged(postCode, contact: contact),
-                labelText: 'PLZ',
-                errorText: postCode.displayError != null
-                    ? 'Nur Zahlen und maximal 5 Zeichen sind erlaubt'
-                    : null,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(5),
-                ]);
-          },
+        FormTextField(
+            onChanged: (postCode) => context
+                .read<ParcelCubit>()
+                .changePostCode(postCode, contact: contact),
+            labelText: 'PLZ',
+            errorText: ctc.postCode.displayError != null
+                ? 'Nur Zahlen und maximal 5 Zeichen sind erlaubt'
+                : null,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(5),
+            ]),
+        const SizedBox(height: 8),
+        FormTextField(
+          onChanged: (value) => context
+              .read<ParcelCubit>()
+              .changeResidence(value, contact: contact),
+          labelText: 'Wohnort',
+          errorText: ctc.residence.displayError != null
+              ? 'Nur Zeichen von a-z oder A-Z sind erlaubt'
+              : null,
         ),
         const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.residence != current.recipient.residence ||
-              previous.sender.residence != current.sender.residence,
-          builder: (context, state) {
-            var residence = contact == ContactEnum.recipient
-                ? state.recipient.residence
-                : state.sender.residence;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .residenceChanged(value, contact: contact),
-              labelText: 'Wohnort',
-              errorText: residence.displayError != null
-                  ? 'Nur Zeichen von a-z oder A-Z sind erlaubt'
-                  : null,
-            );
-          },
-        ),
-        const SizedBox(height: 8),
-        BlocBuilder<ParcelCubit, ParcelState>(
-          buildWhen: (previous, current) =>
-              previous.recipient.email != current.recipient.email ||
-              previous.sender.email != current.sender.email,
-          builder: (context, state) {
-            var email = contact == ContactEnum.recipient
-                ? state.recipient.email
-                : state.sender.email;
-            return FormTextField(
-              onChanged: (value) => context
-                  .read<ParcelCubit>()
-                  .emailChanged(value, contact: contact),
-              labelText: 'E-Mail',
-              errorText: email.displayError != null ? 'Ungültige E-Mail' : null,
-            );
-          },
+        FormTextField(
+          onChanged: (value) =>
+              context.read<ParcelCubit>().changeEmail(value, contact: contact),
+          labelText: 'E-Mail',
+          errorText: ctc.email.displayError != null ? 'Ungültige E-Mail' : null,
         ),
       ],
     );
@@ -284,9 +226,14 @@ class Summary extends StatelessWidget {
     return BlocBuilder<ParcelCubit, ParcelState>(
       builder: (context, state) {
         var selectedParcel = state.selectedParcel;
+        var recipient = state.recipient;
+        var sender = state.sender;
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (selectedParcel != null) ParcelCard(parcel: selectedParcel),
+            ContactSummary(title: 'Empfänger', contact: recipient),
+            ContactSummary(title: 'Absender', contact: sender)
           ],
         );
       },
