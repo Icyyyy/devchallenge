@@ -6,7 +6,8 @@ class Street extends FormzInput<String, StreetValidationError> {
   const Street.pure() : super.pure('');
   const Street.dirty([super.value = '']) : super.dirty();
 
-  static final RegExp _streetRegExp = RegExp(r"^[a-zA-Z\s.]+$");
+  // allow umlauts for streets, for e.g. "Überseestraße".
+  static final RegExp _streetRegExp = RegExp(r"^[a-zA-Z\s.äöüÄÖÜß]+$");
 
   @override
   StreetValidationError? validator(String? value) {
