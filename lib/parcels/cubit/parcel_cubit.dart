@@ -169,7 +169,7 @@ class ParcelCubit extends Cubit<ParcelState> {
           ));
   }
 
-  void changehouseNumber(String value, {required ContactEnum contact}) {
+  void changeHouseNumber(String value, {required ContactEnum contact}) {
     final houseNumber = HouseNumber.dirty(value);
     emit(contact == ContactEnum.recipient
         ? state.copyWith(

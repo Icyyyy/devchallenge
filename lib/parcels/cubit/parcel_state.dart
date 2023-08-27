@@ -6,7 +6,6 @@ class ParcelState with _$ParcelState {
     @Default([]) List<Parcel> parcels,
     Parcel? selectedParcel,
     @Default(0) int stepIndex,
-    FormzSubmissionStatus? recipientStatus,
     @Default(Contact()) Contact recipient,
     @Default(false) bool isValidRecipient,
     @Default(Contact()) Contact sender,

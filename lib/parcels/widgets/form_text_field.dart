@@ -4,22 +4,25 @@ import 'package:flutter/services.dart';
 class FormTextField extends StatelessWidget {
   const FormTextField({
     super.key,
-    this.onChanged,
-    this.labelText,
+    required this.onChanged,
+    required this.initialValue,
+    required this.labelText,
     this.errorText,
     this.inputFormatters,
     this.keyboardType,
   });
 
-  final ValueChanged<String>? onChanged;
-  final String? labelText;
+  final ValueChanged<String> onChanged;
+  final String labelText;
+  final String initialValue;
   final String? errorText;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      initialValue: initialValue,
       onChanged: onChanged,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,

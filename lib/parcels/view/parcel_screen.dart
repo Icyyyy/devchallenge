@@ -138,82 +138,97 @@ class ContactForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = context.watch<ParcelCubit>().state;
-    Contact ctc =
-        contact == ContactEnum.recipient ? state.recipient : state.sender;
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-        FormTextField(
-          onChanged: (value) => context
-              .read<ParcelCubit>()
-              .changeFirstname(value, contact: contact),
-          labelText: 'Vorname (Optional)',
-          errorText: ctc.firstname.displayError != null
-              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-              : null,
-        ),
-        const SizedBox(height: 8),
-        FormTextField(
-          onChanged: (value) => context
-              .read<ParcelCubit>()
-              .changeLastname(value, contact: contact),
-          labelText: 'Nachname',
-          errorText: ctc.lastname.displayError != null
-              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-              : null,
-        ),
-        const SizedBox(height: 8),
-        FormTextField(
-          onChanged: (value) =>
-              context.read<ParcelCubit>().changeStreet(value, contact: contact),
-          labelText: 'Straße',
-          errorText: ctc.street.displayError != null
-              ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
-              : null,
-        ),
-        const SizedBox(height: 8),
-        FormTextField(
-          onChanged: (value) => context
-              .read<ParcelCubit>()
-              .changehouseNumber(value, contact: contact),
-          labelText: 'Hausnummer',
-          errorText: ctc.houseNumber.displayError != null
-              ? 'Nur Zeichen 0-9 und a-z sind erlaubt'
-              : null,
-        ),
-        const SizedBox(height: 8),
-        FormTextField(
-            onChanged: (postCode) => context
-                .read<ParcelCubit>()
-                .changePostCode(postCode, contact: contact),
-            labelText: 'PLZ',
-            errorText: ctc.postCode.displayError != null
-                ? 'Nur Zahlen und maximal 5 Zeichen sind erlaubt'
-                : null,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(5),
-            ]),
-        const SizedBox(height: 8),
-        FormTextField(
-          onChanged: (value) => context
-              .read<ParcelCubit>()
-              .changeResidence(value, contact: contact),
-          labelText: 'Wohnort',
-          errorText: ctc.residence.displayError != null
-              ? 'Nur Zeichen von a-z oder A-Z sind erlaubt'
-              : null,
-        ),
-        const SizedBox(height: 8),
-        FormTextField(
-          onChanged: (value) =>
-              context.read<ParcelCubit>().changeEmail(value, contact: contact),
-          labelText: 'E-Mail (Optional)',
-          errorText: ctc.email.displayError != null ? 'Ungültige E-Mail' : null,
-        ),
-      ],
+    return BlocBuilder<ParcelCubit, ParcelState>(
+      builder: (context, state) {
+        Contact ctc =
+            contact == ContactEnum.recipient ? state.recipient : state.sender;
+        return Column(
+          children: [
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeFirstname(value, contact: contact),
+              initialValue: ctc.firstname.value,
+              // optional, because there is only the last name on the doorbells
+              labelText: 'Vorname (Optional)',
+              errorText: ctc.firstname.displayError != null
+                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeLastname(value, contact: contact),
+              initialValue: ctc.lastname.value,
+              labelText: 'Nachname',
+              errorText: ctc.lastname.displayError != null
+                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeStreet(value, contact: contact),
+              initialValue: ctc.street.value,
+              labelText: 'Straße',
+              errorText: ctc.street.displayError != null
+                  ? 'Nur Zeichen von a-z und A-Z sind erlaubt'
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeHouseNumber(value, contact: contact),
+              initialValue: ctc.houseNumber.value,
+              labelText: 'Hausnummer',
+              errorText: ctc.houseNumber.displayError != null
+                  ? 'Nur Zeichen 0-9 und a-z sind erlaubt'
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            FormTextField(
+                onChanged: (postCode) => context
+                    .read<ParcelCubit>()
+                    .changePostCode(postCode, contact: contact),
+                initialValue: ctc.postCode.value,
+                labelText: 'PLZ',
+                errorText: ctc.postCode.displayError != null
+                    ? 'Nur Zahlen und maximal 5 Zeichen sind erlaubt'
+                    : null,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(5),
+                ]),
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeResidence(value, contact: contact),
+              initialValue: ctc.residence.value,
+              labelText: 'Wohnort',
+              errorText: ctc.residence.displayError != null
+                  ? 'Nur Zeichen von a-z oder A-Z sind erlaubt'
+                  : null,
+            ),
+            const SizedBox(height: 8),
+            FormTextField(
+              onChanged: (value) => context
+                  .read<ParcelCubit>()
+                  .changeEmail(value, contact: contact),
+              initialValue: ctc.email.value,
+              // optional, because the email is not needed for shipping
+              labelText: 'E-Mail (Optional)',
+              errorText:
+                  ctc.email.displayError != null ? 'Ungültige E-Mail' : null,
+            ),
+          ],
+        );
+      },
     );
   }
 }
